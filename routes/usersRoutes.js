@@ -14,3 +14,5 @@ router.put('/updateUser', usersControler.updateUser)
 router.put('/updateAdm', usersControler.updateUserAdm)
 
 router.delete('/:id', usersControler.deleteUser)
+
+module.exports = router
