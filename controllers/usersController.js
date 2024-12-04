@@ -27,7 +27,7 @@ const createUser = (req, res) => {
 
 
 const createUserAdm = (req, res) => {
-    const newAdmin = createUserAdmin(req.body);
+    const newAdmin = createUserAdm(req.body);
     newAdmin.isAdmin = true;
     if (!newAdmin.name || !newAdmin.email || !newAdmin.user || !newAdmin.password) {
         return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
