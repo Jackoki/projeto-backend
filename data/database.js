@@ -8,4 +8,11 @@ let users = [
     new User(5, 'Rodrigo Faro', 'rodrigofaro@outlook.com', 'rodrigofaro', 'rodrigo', false),
 ]
 
-module.exports = { users }
+const getNewId = () => {
+    const ids = users.map(user => user.id)
+    const maxId = Math.max(...ids) + 1
+
+    return maxId
+}
+
+module.exports = { users, getNewId }

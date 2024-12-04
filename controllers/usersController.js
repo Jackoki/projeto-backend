@@ -1,4 +1,5 @@
-const { users } = require('../data/database')
+const { users, getNewId } = require('../data/database')
+const User = require('../models/User')
 
 const getUsers = (req, res) => {
     res.status(200).json(users)
@@ -17,20 +18,32 @@ const getUserById = (req, res) => {
 }
 
 const createUser = (req, res) => {
-    const newUser =  { ...req.body, isAdm: false };
+    const newUser =  req.body
     if (!newUser.name || !newUser.email || !newUser.user || !newUser.password) {
         return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
     }
-    res.status(200).json(newUser)
+
+    else{
+        const userCreated = new User(getNewId(), newUser.name, newUser.email, newUser.user, newUser.password, false)
+
+        users.push(userCreated)
+        res.status(200).json(userCreated)
+    }
 }
 
 
 const createUserAdm = (req, res) => {
-    const newAdmin =  {...req.body, isAdm: true};
-    if (!newAdmin.name || !newAdmin.email || !newAdmin.user || !newAdmin.password) {
+    const newUser =  req.body
+    if (!newUser.name || !newUser.email || !newUser.user || !newUser.password) {
         return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
     }
-    res.status(200).json(newAdmin)
+
+    else{
+        const userCreated = new User(getNewId(), newUser.name, newUser.email, newUser.user, newUser.password, true)
+
+        users.push(userCreated)
+        res.status(200).json(userCreated)
+    }
 }
 
 
