@@ -42,7 +42,11 @@ const verifyUser = (req, res) => {
 
 
 const updateUser = (req, res) => {
-    res.status(200).json(users)
+    const updatedUser = users.updateUser(parseInt(req.params.id, 10), req.body);
+    if (!updatedUser) {
+        return res.status(404).json({ message: "Usuário não encontrado" });
+    }
+    res.status(200).json(updatedUser)
 }
 
 
