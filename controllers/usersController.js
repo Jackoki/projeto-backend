@@ -63,7 +63,7 @@ const deleteUser = (req, res) => {
         return res.status(404).json({ message: 'Usuário não encontrado.' });
     }
 
-    if(deletedUser.isAdmin){
+    if(deletedUser.isAdm){
         return res.status(404).json({ message: 'Admins não podem ser deletados' });
     }
     
