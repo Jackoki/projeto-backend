@@ -69,7 +69,20 @@ const registerCountry = (req, res) => {
 }
 
 const updateCountry = (req, res) => {
-    res.status(200).json(countries)
+    const countryId = parseInt(req.params.id);
+    const countryFound = countries.findIndex(c => c.id === countryId)
+    if (!countryFound) {
+        return res.status(404).json({ message: "País não encontrado" });
+    }
+
+    const updatedCountry = {
+        ...countries[countryFound],
+        ...req.body
+    }
+
+    countries[countryFound] = updatedCountry;
+
+    res.status(200).json(updatedCountry)
 }
 
 const deleteCountry = (req, res) => {
