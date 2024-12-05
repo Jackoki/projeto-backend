@@ -18,7 +18,15 @@ const getCountryByName = (req, res) => {
 }
 
 const getCountriesByContinent = (req, res) => {
-    res.status(200).json(countries)
+    const continentName = req.params.continent;
+    
+    const continent = countries.filter(c => c.continent.toLowerCase().trim() === continentName.toLowerCase().trim());
+
+    if (!continent) {
+        return res.status(404).json({ message: "Continente não encontrado" });
+    }
+
+    res.status(200).json(continent)
 }
 
 const getCountriesByLanguage = (req, res) => {
