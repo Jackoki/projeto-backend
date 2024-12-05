@@ -6,7 +6,15 @@ const getCountries = (req, res) => {
 }
 
 const getCountryByName = (req, res) => {
-    res.status(200).json(countries)
+    const countryName = req.params.name;
+    
+    const country = countries.find(c => c.name.toLowerCase().trim() === countryName.toLowerCase().trim());
+
+    if (!country) {
+        return res.status(404).json({ message: "País não encontrado" });
+    }
+
+    res.status(200).json(country)
 }
 
 const getCountriesByContinent = (req, res) => {
