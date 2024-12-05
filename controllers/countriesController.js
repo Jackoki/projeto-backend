@@ -30,8 +30,15 @@ const getCountriesByContinent = (req, res) => {
 }
 
 const getCountriesByLanguage = (req, res) => {
-    res.status(200).json(countries)
-}
+    const languageName = req.params.language;
+
+    const language = countries.filter(c => c.language.toLowerCase().trim() === languageName.toLowerCase().trim());
+
+    if (language.length === 0) {
+        return res.status(404).json({ message: "Língua não encontrada" });
+    }
+
+    res.status(200).json(language)
 
 const getCountriesByAMC = (req, res) => {
     res.status(200).json(countries)
