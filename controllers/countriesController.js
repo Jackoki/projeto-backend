@@ -41,7 +41,17 @@ const getCountriesByLanguage = (req, res) => {
     res.status(200).json(language)
 
 const getCountriesByAMC = (req, res) => {
-    res.status(200).json(countries)
+    const countryAMC = req.params.allowMultipleCitizenship;
+
+    const isAMC = countryAMC === "true";
+    
+    const AMC = countries.filter(c => c.allowMultipleCitizenship === isAMC);
+
+    if (AMC.length === 0) {
+        return res.status(404).json({ message: "País não encontrado" });
+    }
+
+    res.status(200).json(AMC)
 }
 
 const registerCountry = (req, res) => {
