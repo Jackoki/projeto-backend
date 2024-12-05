@@ -55,7 +55,17 @@ const getCountriesByAMC = (req, res) => {
 }
 
 const registerCountry = (req, res) => {
-    res.status(200).json(countries)
+    const newCountry =  req.body
+    if (!newCountry.name || !newCountry.continent || !newCountry.language || !newCountry.gdp || !newCountry.allowMultipleCitizenship) {
+        return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
+    }
+
+    else{
+        const countryCreated = new Country(getNewId(), newCountry.name, newCountry.continent, newCountry.language, newCountry.gdp, newCountry.allowMultipleCitizenship)
+
+        countries.push(countryCreated)
+        res.status(200).json(countryCreated)
+    }
 }
 
 const updateCountry = (req, res) => {
