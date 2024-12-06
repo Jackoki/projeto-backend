@@ -86,7 +86,15 @@ const updateCountry = (req, res) => {
 }
 
 const deleteCountry = (req, res) => {
-    res.status(200).json(countries)
+    const countryId = parseInt(req.params.id, 10);
+    const countryFound = countries.findIndex(c => c.id === countryId);
+    if(countryFound === -1){
+        return res.status(404).json({ message: 'País não encontrado.' });
+    }
+
+    const [deletedCountry] = countries.splice(countryFound, 1);
+
+    res.status(200).json(deletedCountry);
 }
 
 module.exports = {
