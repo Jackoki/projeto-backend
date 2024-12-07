@@ -39,6 +39,7 @@ const getCountriesByLanguage = (req, res) => {
     }
 
     res.status(200).json(language)
+}
 
 const getCountriesByAMC = (req, res) => {
     const countryAMC = req.params.allowMultipleCitizenship;
