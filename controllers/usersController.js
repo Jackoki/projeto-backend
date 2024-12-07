@@ -1,4 +1,5 @@
 const { users, getNewId } = require('../data/database')
+const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 
 const getUsers = (req, res) => {
@@ -46,9 +47,20 @@ const createUserAdm = (req, res) => {
     }
 }
 
-
+//Essa é a rota de Login
 const verifyUser = (req, res) => {
-    res.status(200).json(users)
+    const {user, password} = req.body
+
+    const userLogin = users.find(u => u.user === user && u.password === password)
+
+    if(!userLogin) {
+        return res.status(401).json({ message: 'Usuário ou senha inválida, tente novamente' });
+    }
+
+    else{
+        const token = jwt.sign({id: userLogin.id}, process.env.JWT_SECRET, {expiresIn: '1 hr'})
+        res.status(200).json({token})
+    }
 }
 
 
