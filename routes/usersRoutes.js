@@ -1,18 +1,18 @@
 const express = require('express')
-
-const router = express.Router()
 const usersControler = require('../controllers/usersController')
+const {verifyToken, isAdm} = require('../middlewares/auth.js')
+const router = express.Router()
 
 router.get('/', usersControler.getUsers)
 router.get('/:id', usersControler.getUserById)
 
 router.post('/registerUser', usersControler.createUser)
-router.post('/registerAdm', usersControler.createUserAdm)
+router.post('/registerAdm', verifyToken, isAdm, usersControler.createUserAdm)
 router.post('/login', usersControler.verifyUser)
 
-router.put('/updateUser', usersControler.updateUser)
-router.put('/updateAdm', usersControler.updateUserAdm)
+router.put('/updateUser', verifyToken, usersControler.updateUser)
+router.put('/updateAdm', verifyToken, isAdm, usersControler.updateUserAdm)
 
-router.delete('/:id', usersControler.deleteUser)
+router.delete('/:id', verifyToken, isAdm, usersControler.deleteUser)
 
 module.exports = router

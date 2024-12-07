@@ -58,18 +58,25 @@ const verifyUser = (req, res) => {
     }
 
     else{
-        const token = jwt.sign({id: userLogin.id}, process.env.JWT_SECRET, {expiresIn: '1 hr'})
-        res.status(200).json({token})
+        const token = jwt.sign({id: userLogin.id, isAdm: userLogin.isAdm}, process.env.JWT_SECRET, {expiresIn: '1 hr'})
+        res.cookie("token", token, {httpOnly: true})
+
+        res.status(200).json({message: 'Login funcionou', token})
     }
 }
 
 
 const updateUser = (req, res) => {
-    const updatedUser = users.updateUser(parseInt(req.params.id, 10), req.body);
-    if (!updatedUser) {
-        return res.status(404).json({ message: "Usuário não encontrado" });
+    const userId = parseInt(req.params.id, 10)
+    const userToBeUpdated = users.find(u => u.id === userId)
+
+    if(!userToBeUpdated) {
+        return res.status(404).json({ message: 'Usuário não existente' });
     }
-    res.status(200).json(updatedUser)
+
+    Object.assign(updateUser, req.body)
+
+    res.status(200).json(userToBeUpdated)
 }
 
 
