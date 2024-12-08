@@ -5,7 +5,7 @@ const citiesController = require('../controllers/citiesController')
 
 router.get('/', citiesController.getCities)
 router.get('/:name', citiesController.getCityByName)
-router.get('/country/:name', citiesController.getCityByCountry)
+router.get('/country/:name', citiesController.getCitiesByCountry)
 
 router.post('/registerCity', citiesController.registerCity)
 
