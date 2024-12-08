@@ -27,7 +27,7 @@ const isAdm = (req, res, next) => {
         }
 
         if(!req.user.isAdm) {
-            return res.status(403).json({message: 'Acesso negado: apenas administradores pode realizar a ação'})
+            return res.status(403).json({message: 'Acesso negado: apenas administradores podem realizar a ação'})
         }
 
         next();
@@ -45,8 +45,8 @@ const userIsAdmOrHimself = (req, res, next) => {
             return res.status(401).json({message: 'Acesso negado'})
         }
 
-        if(!isAdm || (idUserToBeUpdated !== idUserMakingUpdate)) {
-            return res.status(403).json({message: 'Acesso negado: apenas administradores pode realizar a ação'})
+        if(!isAdm && (idUserToBeUpdated !== idUserMakingUpdate)) {
+            return res.status(403).json({message: 'Acesso negado: apenas administradores podem realizar a ação'})
         }
 
         next();

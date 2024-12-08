@@ -67,28 +67,40 @@ const verifyUser = (req, res) => {
 
 
 const updateUser = (req, res) => {
-    const userId = parseInt(req.params.id, 10)
+    const userId = req.body.id
     const userToBeUpdated = users.find(u => u.id === userId)
 
     if(!userToBeUpdated) {
         return res.status(404).json({ message: 'Usuário não existente' });
     }
 
-    Object.assign(userToBeUpdated, req.body)
+    const properties = ['name', 'email', 'user', 'password']
+
+    Object.keys(req.body).forEach(key => {
+        if(properties.includes(key)) {
+            userToBeUpdated[key] = req.body[key]
+        }
+    })
 
     res.status(200).json(userToBeUpdated)
 }
 
 
 const updateUserAdm = (req, res) => {
-    const userId = parseInt(req.params.id, 10)
+    const userId = req.body.id
     const userToBeUpdated = users.find(u => u.id === userId)
 
     if(!userToBeUpdated) {
         return res.status(404).json({ message: 'Usuário não existente' });
     }
 
-    Object.assign(userToBeUpdated, req.body)
+    const properties = ['name', 'email', 'user', 'password']
+
+    Object.keys(req.body).forEach(key => {
+        if(properties.includes(key)) {
+            userToBeUpdated[key] = req.body[key]
+        }
+    })
 
     res.status(200).json(userToBeUpdated)
 }
