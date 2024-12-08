@@ -20,9 +20,6 @@ const verifyToken = (req, res, next) => {
     })
 }
 
-
-
-
 const isAdm = (req, res, next) => {
     verifyToken(req, res, (err) => {
         if(err) {
@@ -37,7 +34,26 @@ const isAdm = (req, res, next) => {
     })
 }
 
+const userIsAdmOrHimself = (req, res, next) => {
+    verifyToken(req, res, (err) => {
+
+        const idUserToBeUpdated = req.body.id
+        const idUserMakingUpdate = req.user.id
+        const isAdm = req.user.isAdm
+
+        if(err) {
+            return res.status(401).json({message: 'Acesso negado'})
+        }
+
+        if(!isAdm || (idUserToBeUpdated !== idUserMakingUpdate)) {
+            return res.status(403).json({message: 'Acesso negado: apenas administradores pode realizar a ação'})
+        }
+
+        next();
+    })
+}
 
 
 
-module.exports = { verifyToken, isAdm }
+
+module.exports = { verifyToken, isAdm, userIsAdmOrHimself }

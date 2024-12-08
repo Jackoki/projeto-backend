@@ -74,14 +74,23 @@ const updateUser = (req, res) => {
         return res.status(404).json({ message: 'Usuário não existente' });
     }
 
-    Object.assign(updateUser, req.body)
+    Object.assign(userToBeUpdated, req.body)
 
     res.status(200).json(userToBeUpdated)
 }
 
 
 const updateUserAdm = (req, res) => {
-    res.status(200).json(users)
+    const userId = parseInt(req.params.id, 10)
+    const userToBeUpdated = users.find(u => u.id === userId)
+
+    if(!userToBeUpdated) {
+        return res.status(404).json({ message: 'Usuário não existente' });
+    }
+
+    Object.assign(userToBeUpdated, req.body)
+
+    res.status(200).json(userToBeUpdated)
 }
 
 
