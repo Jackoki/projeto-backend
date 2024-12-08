@@ -36,7 +36,20 @@ const registerCity = (req, res) => {
 }
 
 const updateCity = (req, res) => {
-    res.status(200).json(cities)
+    const cityId = parseInt(req.params.id);
+    const cityFound = cities.findIndex(c => c.id === cityId)
+    if (cityFound === -1) {
+        return res.status(404).json({ message: "Cidade não encontrada" });
+    }
+
+    const updatedCity = {
+        ...cities[cityFound],
+        ...req.body
+    }
+
+    cities[cityFound] = updatedCity;
+
+    res.status(200).json(updatedCity)
 }
 
 const deleteCity = (req, res) => {
