@@ -22,7 +22,17 @@ const getCityByCountry = (req, res) => {
 }
 
 const registerCity = (req, res) => {
-    res.status(200).json(cities)
+    const newCity =  req.body
+    if (!newCity.name || !newCity.population || !newCity.idCountry) {
+        return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
+    }
+    
+    else{
+        const cityCreated = new City(getNewId(), newCity.name, newCity.population, newCity.idCountry)
+    
+        cities.push(cityCreated)
+        res.status(200).json(cityCreated)
+    }
 }
 
 const updateCity = (req, res) => {
