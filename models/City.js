@@ -2,7 +2,7 @@ const City = function (id, name, population, idCountry) {
     this.id = id
     this.name = name
     this.population = population
-    this.idCountry = this.idCountry
+    this.idCountry = idCountry
 
     this.getId = function() {
         return this.id
