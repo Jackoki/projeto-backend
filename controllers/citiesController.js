@@ -9,7 +9,7 @@ const getCityByName = (req, res) => {
     res.status(200).json(cities)
 }
 
-const getCityByCountry = (req, res) => {
+const getCitiesByCountry = (req, res) => {
     res.status(200).json(cities)
 }
 
@@ -29,7 +29,7 @@ const deleteCity = (req, res) => {
 module.exports = {
     getCities,
     getCityByName,
-    getCityByCountry,
+    getCitiesByCountry,
     registerCity,
     updateCity,
     deleteCity

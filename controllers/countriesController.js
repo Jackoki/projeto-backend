@@ -2,7 +2,12 @@ const { countries, getNewId } = require('../data/databaseCountries')
 const Country = require('../models/Country')
 
 const getCountries = (req, res) => {
-    res.status(200).json(countries)
+    const { page = 1 } = req.query
+
+     //Recebe o limite de valores a aparecer na página pela query
+     const limit = parseInt(req.query.limit, 10) || 5
+
+     return paginate(countries, page, limit, res)
 }
 
 const getCountryByName = (req, res) => {
@@ -18,6 +23,11 @@ const getCountryByName = (req, res) => {
 }
 
 const getCountriesByContinent = (req, res) => {
+    const { page = 1 } = req.query
+
+    //Recebe o limite de valores a aparecer na página pela query
+    const limit = parseInt(req.query.limit, 10) || 5
+
     const continentName = req.params.continent;
     
     const continent = countries.filter(c => c.continent.toLowerCase().trim() === continentName.toLowerCase().trim());
@@ -26,10 +36,15 @@ const getCountriesByContinent = (req, res) => {
         return res.status(404).json({ message: "Continente não encontrado" });
     }
 
-    res.status(200).json(continent)
+    return paginate(continent, page, limit, res)
 }
 
 const getCountriesByLanguage = (req, res) => {
+    const { page = 1 } = req.query
+
+    //Recebe o limite de valores a aparecer na página pela query
+    const limit = parseInt(req.query.limit, 10) || 5
+
     const languageName = req.params.language;
 
     const language = countries.filter(c => c.language.toLowerCase().trim() === languageName.toLowerCase().trim());
@@ -38,10 +53,16 @@ const getCountriesByLanguage = (req, res) => {
         return res.status(404).json({ message: "Língua não encontrada" });
     }
 
-    res.status(200).json(language)
+
+    return paginate(language, page, limit, res)
 }
 
 const getCountriesByAMC = (req, res) => {
+    const { page = 1 } = req.query
+
+    //Recebe o limite de valores a aparecer na página pela query
+    const limit = parseInt(req.query.limit, 10) || 5
+    
     const countryAMC = req.params.allowMultipleCitizenship;
 
     const isAMC = countryAMC === "true";
@@ -52,7 +73,7 @@ const getCountriesByAMC = (req, res) => {
         return res.status(404).json({ message: "País não encontrado" });
     }
 
-    res.status(200).json(AMC)
+    return paginate(AMC, page, limit, res)
 }
 
 const registerCountry = (req, res) => {
@@ -96,6 +117,51 @@ const deleteCountry = (req, res) => {
     const [deletedCountry] = countries.splice(countryFound, 1);
 
     res.status(200).json(deletedCountry);
+}
+
+const paginate = (database, page, limit, res) => {
+    // Se o limite da página não for 5, 10 ou 30, será acionado um erro
+    if (![5, 10, 30].includes(limit)) {
+        return res.status(400).json({ message: 'O limite deve ser 5, 10 ou 30 países por página' });
+     }
+
+    //Variável e não constante para receber a última página da consulta
+    let lastPage = 1
+
+    //Constante que recebe o total de paises do vetor
+    const quantityCountries = database.length
+
+    if(quantityCountries !== 0) {
+        const alfabeticalOrderCountries = [...database].sort((a, b) => {
+            // Compara os nomes dos países em ordem alfabética (case-insensitive)
+            return a.name.localeCompare(b.name);
+        });
+
+        // Calcula a última página
+        lastPage = Math.ceil(quantityCountries / limit);
+
+        if (page < 1 || page > lastPage) {
+            return res.status(400).json({ message: "Página inválida" });
+        }
+
+        // Calcula o índice inicial e final com base na página e no limite
+        const startIndex = (page - 1) * limit;
+        const endIndex = page * limit;
+
+        // Pega a fatia dos países conforme a página e limite
+        const countriesPage = alfabeticalOrderCountries.slice(startIndex, endIndex);
+
+        return res.status(200).json({
+            countries: countriesPage,
+            currentPage: page,
+            lastPage: lastPage,
+            totalCountries: quantityCountries
+        });
+    }
+
+    else {
+        return res.status(400).json({ message: "Não foi encontrado nenhum registro de países" });
+    }
 }
 
 module.exports = {
