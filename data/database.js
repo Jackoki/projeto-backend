@@ -8,6 +8,7 @@ let users = [
     new User(5, 'Rodrigo Faro', 'rodrigofaro@outlook.com', 'rodrigofaro', 'rodrigo', false),
 ]
 
+//Função para resgatar o maior ID do vetor acima para gerar automáticamente o ID do usuário na criação.
 const getNewId = () => {
     const ids = users.map(user => user.id)
     const maxId = Math.max(...ids) + 1
