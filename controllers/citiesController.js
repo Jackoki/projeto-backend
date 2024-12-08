@@ -67,7 +67,15 @@ const updateCity = (req, res) => {
 }
 
 const deleteCity = (req, res) => {
-    res.status(200).json(cities)
+    const cityId = parseInt(req.params.id, 10);
+    const cityFound = cities.findIndex(c => c.id === cityId);
+    if(cityFound === -1){
+        return res.status(404).json({ message: 'Cidade não encontrada.' });
+    }
+
+    const [deletedCity] = cities.splice(cityFound, 1);
+
+    res.status(200).json(deletedCity);
 }
 
 
