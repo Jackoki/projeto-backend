@@ -9,5 +9,6 @@ app.use(express.json())
 
 app.use('/users', usersRoutes)
 app.use('/countries', countriesRoutes)
+app.use('/cities', countriesRoutes)
 
 app.listen(4000, () => console.log("Servidor rodando na porta 4000"))
