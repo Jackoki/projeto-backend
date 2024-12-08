@@ -18,7 +18,21 @@ const getCityByName = (req, res) => {
 }
 
 const getCitiesByCountry = (req, res) => {
-    res.status(200).json(cities)
+    const countryName = req.params.name;
+    
+    const country = countries.find(c => c.name.toLowerCase().trim() === countryName.toLowerCase().trim());
+
+    if (!country) {
+        return res.status(404).json({ message: "País não encontrada" });
+    }
+
+    const citiesByCountry = cities.filter(c => c.idCountry === country.id)
+
+    if (citiesByCountry.length === 0) {
+        return res.status(404).json({ message: "Cidades não encontradas" });
+    }
+
+    res.status(200).json(citiesByCountry)
 }
 
 const registerCity = (req, res) => {
