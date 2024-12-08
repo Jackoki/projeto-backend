@@ -6,7 +6,15 @@ const getCities = (req, res) => {
 }
 
 const getCityByName = (req, res) => {
-    res.status(200).json(cities)
+    const cityName = req.params.name;
+    
+    const city = cities.find(c => c.name.toLowerCase().trim() === cityName.toLowerCase().trim());
+
+    if (!city) {
+        return res.status(404).json({ message: "Cidade não encontrada" });
+    }
+
+    res.status(200).json(city)
 }
 
 const getCityByCountry = (req, res) => {
