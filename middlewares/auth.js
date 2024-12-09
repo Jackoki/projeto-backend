@@ -69,7 +69,11 @@ const userIsAdmOrHimself = (req, res, next) => {
     })
 }
 
+//Função para caso não encontre a rota especificada
+const urlNotValid = (req, res, next) => {
+    res.status(404).json({message: "Rota não existente"})
+}
 
 
 
-module.exports = { verifyToken, isAdm, userIsAdmOrHimself }
+module.exports = { verifyToken, isAdm, userIsAdmOrHimself, urlNotValid }

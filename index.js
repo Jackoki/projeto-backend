@@ -1,6 +1,7 @@
-//Importação de frameworks no projeto, uso de dotenv para o auth.
+//Importação de frameworks e funções no projeto, uso de dotenv para o auth.
 require('dotenv').config();
 const express = require('express')
+const {urlNotValid} = require('./middlewares/auth.js')
 const usersRoutes = require('./routes/usersRoutes')
 const countriesRoutes = require('./routes/countriesRoutes')
 const citiesRoutes = require('./routes/citiesRoutes')
@@ -13,5 +14,9 @@ app.use(express.json())
 app.use('/users', usersRoutes)
 app.use('/countries', countriesRoutes)
 app.use('/cities', citiesRoutes)
+
+
+//Chamada de middleware do arquivo auth.js para caso não encontre a rota
+app.use(urlNotValid)
 
 app.listen(4000, () => console.log("Servidor rodando na porta 4000"))
