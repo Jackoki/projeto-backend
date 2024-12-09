@@ -211,7 +211,7 @@ const deleteCountry = (req, res) => {
 }
 
 
-//Nessa informação passamos 4 parâmetros, o array (database), a quantidade de páginas, limite da página e as requisições do usuário
+//Nessa informação passamos 4 parâmetros, o array (database), a quantidade de páginas, limite da página e as requisições do pais
 const paginate = (database, page, limit, res) => {
     // Se o limite da página passada não for 5, 10 ou 30, será acionado um erro
     if (![5, 10, 30].includes(limit)) {

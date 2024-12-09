@@ -1,16 +1,24 @@
 const express = require('express')
 
+//Importação dos middlewares de autenticação
+//VerifyToken é usado para verificar o Token de Login
+//isAdm analisa se o token do usuário logado tem permissão ou não de administrador
+const {verifyToken, isAdm} = require('../middlewares/auth.js')
 const router = express.Router()
 const citiesController = require('../controllers/citiesController')
 
-router.get('/', citiesController.getCities)
-router.get('/:name', citiesController.getCityByName)
-router.get('/country/:name', citiesController.getCitiesByCountry)
+//Funções get para retornar as cidades
+router.get('/', verifyToken, citiesController.getCities)
+router.get('/:name', verifyToken, citiesController.getCityByName)
+router.get('/country/:countryName', verifyToken, citiesController.getCitiesByCountry)
 
-router.post('/registerCity', citiesController.registerCity)
+//Função post para registrar uma cidade
+router.post('/registerCity', verifyToken, isAdm, citiesController.registerCity)
 
-router.put('/:id', citiesController.updateCity)
+//Função put para atualizar uma cidade
+router.put('/:id', verifyToken, isAdm, citiesController.updateCity)
 
-router.delete('/:id', citiesController.deleteCity)
+//Funçao delete para apagar uma cidade
+router.delete('/:id', verifyToken, isAdm, citiesController.deleteCity)
 
 module.exports = router

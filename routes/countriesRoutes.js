@@ -8,13 +8,11 @@ const router = express.Router()
 
 //Chamada de funções dos controllers das rotas criadas
 const countriesController = require('../controllers/countriesController')
-const citiesController = require('../controllers/citiesController')
 
-//Funções get para retornar todos os paises, um pais especifico, cidades de um pais
+//Funções get para retornar todos os paises, um pais especifico
 //Paises de um continente, paises de uma língua, paises que permitem a dupla cidadania
 router.get('/', verifyToken, countriesController.getCountries)
 router.get('/:name', verifyToken, countriesController.getCountryByName)
-router.get('/:name/cities', verifyToken, citiesController.getCitiesByCountry)
 router.get('/continent/:continent', verifyToken, countriesController.getCountriesByContinent)
 router.get('/language/:language', verifyToken, countriesController.getCountriesByLanguage)
 router.get('/citizenship/:allowMultipleCitizenship', verifyToken, countriesController.getCountriesByAMC)

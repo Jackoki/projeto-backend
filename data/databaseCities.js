@@ -55,7 +55,7 @@ let cities = [
 
 
 const getNewId = () => {
-    const ids = cities.map(city => cities.id)
+    const ids = cities.map(city => city.id)
     const maxId = Math.max(...ids) + 1
 
     return maxId
