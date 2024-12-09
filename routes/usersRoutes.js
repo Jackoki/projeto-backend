@@ -10,9 +10,14 @@ const usersControler = require('../controllers/usersController')
 const {verifyToken, isAdm, userIsAdmOrHimself} = require('../middlewares/auth.js')
 const router = express.Router()
 
+//Rota get do requisito para gerar um usuário administrador para utilizar no sistema
+router.get('/install', usersControler.createInitialAdm)
+
 //Rotas get, um para retornar todos os usuários do sistema e outro para retornar um especifico pelo id no req.params
 router.get('/', usersControler.getUsers)
 router.get('/:id', usersControler.getUserById)
+
+
 
 //Rotas post, um para registrar usuário, outro para registrar administrador (apenas administradores podem realizar) 
 //e outro de login que retorna o token

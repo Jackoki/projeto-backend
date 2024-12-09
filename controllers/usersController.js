@@ -22,6 +22,23 @@ const getUserById = (req, res) => {
     res.status(200).json(user);
 }
 
+const createInitialAdm = (req, res) => {
+    // Verifica se já existe um usuário administrador
+    const existingAdmin = users.find(user => user.isAdm === true && user.name === "Administrator");
+
+    // Se o administrador já foi criado, retorna uma mensagem de erro
+    if (existingAdmin) {
+        return res.status(400).json({ message: 'Já existe o usuário Administrator no sistema.'});
+    }
+
+    const initialAdm = new User(getNewId(), "Administrator", "adm@gmail.com", "admin", "admin", true)
+        
+    //Como o database é um vetor, realizamos o push do model acima
+    users.push(initialAdm)
+    res.status(200).json(initialAdm)
+}
+
+
 //Função para criar usuário
 const createUser = (req, res) => {
 
@@ -184,6 +201,7 @@ const deleteUser = (req, res) => {
 module.exports = {
     getUsers,
     getUserById,
+    createInitialAdm,
     createUser,
     createUserAdm,
     verifyUser,
