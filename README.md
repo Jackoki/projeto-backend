@@ -15,7 +15,7 @@ Para o funcionamento e compilação do código, basta rodar apenas:
 Para instalação do projeto, basta acionar:
 
 ```bash
-  npm install my-project
+  npm install
 ```
 
 ## Documentação
